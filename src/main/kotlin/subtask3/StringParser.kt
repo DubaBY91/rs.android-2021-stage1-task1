@@ -30,6 +30,7 @@ class StringParser {
                 stillSearch = true
                 startIndex = minimalIndex + 1
 
+                
             }
 
 
