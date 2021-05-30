@@ -4,41 +4,30 @@ class StringParser {
 
 
     fun getResult(inputString: String): Array<String> {
-
         val result = mutableListOf<String>()
-
-        var stillSearch = true
-        var startIndex = 0
-
-        while (stillSearch) {
-            stillSearch = false
-            val Scobca = inputString.indexOf('(', startIndex)
-            val Treugoln = inputString.indexOf('<', startIndex)
-            val Cvadrat = inputString.indexOf('[', startIndex)
-            val minimalIndex = listOf(Scobca, Treugoln, Cvadrat).filter { it != -1 }.min()
-            if (minimalIndex != null) {
-                val zacrivscobca = when (minimalIndex) {
-                    Scobca -> ')'
-                    Treugoln -> '>'
-                    else -> ']'
+        var nix = 0
+        for (i in inputString.withIndex()) {
+            if (i.value == '<' || i.value == '[' || i.value == '(') {
+                var end: Char = when (i.value) {
+                    '<' -> '>'
+                    '[' -> ']'
+                    '(' -> ')'
+                    else -> ' '
                 }
-                val indexZacrScb = inputString.indexOf(zacrivscobca, minimalIndex)
-                if (indexZacrScb != -1) {
-                    val result1 = inputString.substring(minimalIndex + 1, indexZacrScb)
-                    result.add(result1)
+                for (i2 in i.index + 1 until inputString.length) {
+                    if (inputString[i2] == i.value) nix++
+                    if (inputString[i2] == end) {
+                        if (nix == 0) {
+                            result.add(inputString.substring(i.index + 1 until i2))
+                        } else nix--
+                    }
                 }
-                stillSearch = true
-                startIndex = minimalIndex + 1
-
-                
             }
-
-
         }
-
-
         return result.toTypedArray()
-
-
     }
 }
+
+
+
+
